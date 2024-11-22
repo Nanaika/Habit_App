@@ -10,14 +10,14 @@ import '../components/image_row.dart';
 import '../components/task_chips_row.dart';
 import '../components/title_row.dart';
 
-class MainPageView extends StatefulWidget {
-  const MainPageView({super.key});
+class SettingsPageView extends StatefulWidget {
+  const SettingsPageView({super.key});
 
   @override
-  State<MainPageView> createState() => _MainPageViewState();
+  State<SettingsPageView> createState() => _SettingsPageViewState();
 }
 
-class _MainPageViewState extends State<MainPageView> {
+class _SettingsPageViewState extends State<SettingsPageView> {
   int selectedCompletedDaily = 0;
   int selectedTasks = 0;
 
@@ -45,8 +45,8 @@ class _MainPageViewState extends State<MainPageView> {
             padding: const EdgeInsets.symmetric(horizontal: defPaddingH),
             child: Column(
               children: [
-                const TitleRow(text: 'Main',),
-                const ImageRow(imagePath: 'assets/images/main.png',),
+                const TitleRow(text: 'Settings',),
+                const ImageRow(imagePath: 'assets/images/settings.png',),
                 CompletedDailyChipsRow(
                   selectedIndex: selectedCompletedDaily,
                   onTap: (index) {

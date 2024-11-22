@@ -5,7 +5,10 @@ const defPaddingH = 16.0;
 const defButtonPadding = 16.0;
 const defBorderRadius = 32.0;
 
-const blueColor = Color(0xff6EC1FD);
+const blue = Color(0xff6EC1FD);
+const red = Color(0xffFD886E);
+const violet = Color(0xffCEB5F2);
+const green = Color(0xffA2E492);
 
 final lightTheme = ThemeData(
   textTheme: const TextTheme(

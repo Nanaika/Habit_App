@@ -21,14 +21,21 @@ class BottomBarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BottomBarIndexBloc, int>(
       builder: (context, state) {
-        print('test ------ >>>>> ${state} =------==  ${index}');
+        final color = switch(index) {
+          0 => blue,
+          1 => red,
+          2 => violet,
+          3 => green,
+          int() => throw UnimplementedError(),
+        };
+
         return GestureDetector(
           onTap: onTap,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: index == state ? blueColor : getColor(context).surfaceTint,
+              color: index == state ? color : getColor(context).surfaceTint,
               boxShadow: const [
                 BoxShadow(
                   color: Color(0x0D000000),
