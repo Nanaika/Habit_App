@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:habit_app/components/add_goal_dialog.dart';
+import 'package:habit_app/domain/models/goal.dart';
 import 'package:habit_app/theme.dart';
 
-import '../components/add_task_button.dart';
-import '../components/add_task_dialog.dart';
-import '../components/completed_daily_chips_row.dart';
-import '../components/completed_task_container.dart';
+import '../components/create_goal_button.dart';
 import '../components/empty_task_view.dart';
+import '../components/goal_view.dart';
 import '../components/image_row.dart';
-import '../components/task_chips_row.dart';
+import '../components/sub_title.dart';
 import '../components/title_row.dart';
 
 class HealthPageView extends StatefulWidget {
@@ -21,17 +21,7 @@ class _HealthPageViewState extends State<HealthPageView> {
   int selectedCompletedDaily = 0;
   int selectedTasks = 0;
 
-  void selectCompletedDailyChip(int index) {
-    setState(() {
-      selectedCompletedDaily = index;
-    });
-  }
-
-  void selectTaskChip(int index) {
-    setState(() {
-      selectedTasks = index;
-    });
-  }
+  List<Goal> goals = [];
 
   @override
   Widget build(BuildContext context) {
@@ -45,75 +35,64 @@ class _HealthPageViewState extends State<HealthPageView> {
             padding: const EdgeInsets.symmetric(horizontal: defPaddingH),
             child: Column(
               children: [
-                const TitleRow(text: 'Health',),
-                const ImageRow(imagePath: 'assets/images/health.png',),
-                CompletedDailyChipsRow(
-                  selectedIndex: selectedCompletedDaily,
-                  onTap: (index) {
-                    selectCompletedDailyChip(index);
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Builder(builder: (context) {
-                  if (selectedCompletedDaily == 0) {
-                    return const CompletedTasksContainer(
-                      title: 'Work',
-                      completedValue: 0.33,
-                      completedPercent: 33,
-                    );
-                  } else if (selectedCompletedDaily == 1) {
-                    return const CompletedTasksContainer(
-                      title: 'Meetings',
-                      completedValue: 0,
-                      completedPercent: 0,
-                    );
-                  } else {
-                    return const CompletedTasksContainer(
-                      title: 'Home',
-                      completedValue: 0.90,
-                      completedPercent: 90,
-                    );
-                  }
-                }),
-                const SizedBox(
-                  height: 8,
-                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Text(
-                        'Tasks',
-                        style: getTextTheme(context).bodyMedium?.copyWith(color: getColor(context).onPrimary),
-                      ),
+                    const TitleRow(
+                      text: 'Health',
                     ),
+                    CreateGoalButton(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (ctx) {
+                              return AddGoalDialog(
+                                onTap: () {
+                                  goals.add(Goal(
+                                      type: GoalType.fitness,
+                                      name: 'name',
+                                      duration: const Duration(hours: 1),
+                                      dateCreated: DateTime.now(),
+                                      completed: 0,
+                                      daysCompleted: []));
+                                  setState(() {});
+                                },
+                              );
+                            });
+                      },
+                    )
                   ],
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-                TasksChipsRow(
-                  selectedIndex: selectedTasks,
-                  onTap: (index) {
-                    selectTaskChip(index);
-                  },
+                const ImageRow(
+                  imagePath: 'assets/images/health.png',
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 12,
                 ),
-                const EmptyTaskView(),
+                const SubTitle(text: 'Goals'),
                 const SizedBox(
-                  height: 4,
+                  height: 12,
                 ),
-                AddTaskButton(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (ctx) {
-                          return const AddTaskDialog();
-                        });
-                  },
+                goals.isEmpty
+                    ? const Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            EmptyView(
+                              imagePath: 'assets/images/bb_health.svg',
+                              text:
+                                  'You do not have any health goals added, to add a goal click on the “Create goal” button.',
+                            ),
+                          ],
+                        ),
+                      )
+                    :
+                Expanded(
+                  child: ListView.separated(itemBuilder: (ctx, index) {
+                    return GoalView();
+                  }, separatorBuilder: (ctx, index) {
+                    return SizedBox(height: 10,);
+                  }, itemCount: goals.length),
                 ),
               ],
             ),

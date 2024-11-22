@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:habit_app/components/close_circle_button.dart';
+import 'package:habit_app/components/custom_no_icon_button.dart';
+import 'package:habit_app/components/custom_text_field.dart';
+import 'package:habit_app/components/display_small.dart';
+import 'package:habit_app/components/goal_view.dart';
 import 'package:habit_app/theme.dart';
 
-import '../components/add_task_button.dart';
-import '../components/add_task_dialog.dart';
-import '../components/completed_daily_chips_row.dart';
-import '../components/completed_task_container.dart';
-import '../components/empty_task_view.dart';
 import '../components/image_row.dart';
-import '../components/task_chips_row.dart';
+import '../components/settings_page/feedback_section.dart';
+import '../components/settings_page/settings_block.dart';
 import '../components/title_row.dart';
 
 class SettingsPageView extends StatefulWidget {
@@ -18,21 +20,6 @@ class SettingsPageView extends StatefulWidget {
 }
 
 class _SettingsPageViewState extends State<SettingsPageView> {
-  int selectedCompletedDaily = 0;
-  int selectedTasks = 0;
-
-  void selectCompletedDailyChip(int index) {
-    setState(() {
-      selectedCompletedDaily = index;
-    });
-  }
-
-  void selectTaskChip(int index) {
-    setState(() {
-      selectedTasks = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,75 +32,87 @@ class _SettingsPageViewState extends State<SettingsPageView> {
             padding: const EdgeInsets.symmetric(horizontal: defPaddingH),
             child: Column(
               children: [
-                const TitleRow(text: 'Settings',),
-                const ImageRow(imagePath: 'assets/images/settings.png',),
-                CompletedDailyChipsRow(
-                  selectedIndex: selectedCompletedDaily,
-                  onTap: (index) {
-                    selectCompletedDailyChip(index);
-                  },
+                const TitleRow(
+                  text: 'Settings',
+                ),
+                const ImageRow(
+                  imagePath: 'assets/images/settings.png',
                 ),
                 const SizedBox(
-                  height: 8,
+                  height: 16,
                 ),
-                Builder(builder: (context) {
-                  if (selectedCompletedDaily == 0) {
-                    return const CompletedTasksContainer(
-                      title: 'Work',
-                      completedValue: 0.33,
-                      completedPercent: 33,
-                    );
-                  } else if (selectedCompletedDaily == 1) {
-                    return const CompletedTasksContainer(
-                      title: 'Meetings',
-                      completedValue: 0,
-                      completedPercent: 0,
-                    );
-                  } else {
-                    return const CompletedTasksContainer(
-                      title: 'Home',
-                      completedValue: 0.90,
-                      completedPercent: 90,
-                    );
-                  }
-                }),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
+                const Row(
                   children: [
-                    Expanded(
-                      child: Text(
-                        'Tasks',
-                        style: getTextTheme(context).bodyMedium?.copyWith(color: getColor(context).onPrimary),
-                      ),
-                    ),
+                    LabelLarge(text: 'Application settings'),
                   ],
                 ),
                 const SizedBox(
                   height: 8,
                 ),
-                TasksChipsRow(
-                  selectedIndex: selectedTasks,
-                  onTap: (index) {
-                    selectTaskChip(index);
-                  },
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const EmptyTaskView(),
-                const SizedBox(
-                  height: 4,
-                ),
-                AddTaskButton(
+                FeedBackSection(
                   onTap: () {
-                    showDialog(
+                    showModalBottomSheet(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        backgroundColor: getColor(context).surface,
                         context: context,
                         builder: (ctx) {
-                          return const AddTaskDialog();
+                          return Dialog(
+                            insetPadding: EdgeInsets.zero,
+                            backgroundColor: getColor(context).surface,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  SvgPicture.asset('assets/images/line.svg'),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      DisplaySmall(text: 'Feedback'),
+                                      CloseCircleButton(),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  CustomTextField(hintText: 'Text', textAlign: TextAlign.start,),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  CustomNoIconButton(text: 'Send', color: getColor(context).primary,),
+                                ],
+                              ),
+                            ),
+                          );
                         });
                   },
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                const Row(
+                  children: [
+                    Expanded(
+                      child: SettingsBlock(
+                        imagePath: 'assets/images/privacy_policy.svg',
+                        text: 'Privacy Policy',
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: SettingsBlock(
+                        imagePath: 'assets/images/terms_of_use.svg',
+                        text: 'Terms of Use',
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

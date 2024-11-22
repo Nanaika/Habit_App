@@ -14,6 +14,7 @@ class AddTaskDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      insetPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -53,7 +54,7 @@ class AddTaskDialog extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const CustomTextField(),
+            const CustomTextField(hintText: 'Task name',),
             const SizedBox(
               height: 8,
             ),

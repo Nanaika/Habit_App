@@ -102,7 +102,7 @@ class _HabitPageViewState extends State<HabitPageView> {
                 const SizedBox(
                   height: 16,
                 ),
-                const EmptyTaskView(),
+                const EmptyView(imagePath: '', text: '',),
                 const SizedBox(
                   height: 4,
                 ),

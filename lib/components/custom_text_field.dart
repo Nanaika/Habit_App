@@ -1,12 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
-    super.key,
+    super.key, required this.hintText, this.textAlign = TextAlign.center,
   });
+
+  final String hintText;
+  final TextAlign textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +18,9 @@ class CustomTextField extends StatelessWidget {
       BoxDecoration(color: getColor(context).onSurface, borderRadius: BorderRadius.circular(defBorderRadius / 2)),
       child: TextField(
         style: getTextTheme(context).bodyMedium?.copyWith(color: getColor(context).secondary),
-        textAlign: TextAlign.center,
+        textAlign: textAlign,
         decoration: InputDecoration(
-          hintText: 'Task name',
+          hintText: hintText,
           hintStyle: getTextTheme(context).bodyMedium?.copyWith(color: getColor(context).onPrimary),
           isDense: true,
           border: InputBorder.none,

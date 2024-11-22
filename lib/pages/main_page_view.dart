@@ -45,8 +45,12 @@ class _MainPageViewState extends State<MainPageView> {
             padding: const EdgeInsets.symmetric(horizontal: defPaddingH),
             child: Column(
               children: [
-                const TitleRow(text: 'Main',),
-                const ImageRow(imagePath: 'assets/images/main.png',),
+                const TitleRow(
+                  text: 'Main',
+                ),
+                const ImageRow(
+                  imagePath: 'assets/images/main.png',
+                ),
                 CompletedDailyChipsRow(
                   selectedIndex: selectedCompletedDaily,
                   onTap: (index) {
@@ -102,7 +106,10 @@ class _MainPageViewState extends State<MainPageView> {
                 const SizedBox(
                   height: 16,
                 ),
-                const EmptyTaskView(),
+                const EmptyView(
+                  text: 'You don\'t have any tasks added, add a task and it will appear here.',
+                  imagePath: 'assets/images/bb_home.svg',
+                ),
                 const SizedBox(
                   height: 4,
                 ),

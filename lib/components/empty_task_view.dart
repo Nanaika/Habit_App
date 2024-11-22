@@ -1,21 +1,27 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../theme.dart';
 
-class EmptyTaskView extends StatelessWidget {
-  const EmptyTaskView({
+class EmptyView extends StatelessWidget {
+  const EmptyView({
     super.key,
+    required this.imagePath,
+    required this.text,
   });
+
+  final String imagePath;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset('assets/images/grey_home.png'),
+        SvgPicture.asset(imagePath, width: 60, height: 60, colorFilter: ColorFilter.mode(getColor(context).onSurface, BlendMode.srcIn),),
         FractionallySizedBox(
           widthFactor: 0.75,
           child: Text(
-            'You don\'t have any tasks added, add a task and it will appear here.',
+            text,
             style: getTextTheme(context).labelLarge?.copyWith(color: getColor(context).onPrimary),
             textAlign: TextAlign.center,
           ),
@@ -24,3 +30,6 @@ class EmptyTaskView extends StatelessWidget {
     );
   }
 }
+
+// 'assets/images/grey_home.png'
+// 'You don\'t have any tasks added, add a task and it will appear here.'
