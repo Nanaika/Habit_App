@@ -1,13 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:habit_app/components/close_circle_button.dart';
-import 'package:habit_app/components/custom_no_icon_button.dart';
-import 'package:habit_app/components/custom_text_field.dart';
-import 'package:habit_app/components/display_small.dart';
 import 'package:habit_app/components/goal_view.dart';
+import 'package:habit_app/pages/privacy_policy_page.dart';
 import 'package:habit_app/theme.dart';
 
 import '../components/image_row.dart';
+import '../components/settings_page/feedback_bottom_sheet.dart';
 import '../components/settings_page/feedback_section.dart';
 import '../components/settings_page/settings_block.dart';
 import '../components/title_row.dart';
@@ -56,60 +54,44 @@ class _SettingsPageViewState extends State<SettingsPageView> {
                         backgroundColor: getColor(context).surface,
                         context: context,
                         builder: (ctx) {
-                          return Dialog(
-                            insetPadding: EdgeInsets.zero,
-                            backgroundColor: getColor(context).surface,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  SvgPicture.asset('assets/images/line.svg'),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      DisplaySmall(text: 'Feedback'),
-                                      CloseCircleButton(),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  CustomTextField(hintText: 'Text', textAlign: TextAlign.start,),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  CustomNoIconButton(text: 'Send', color: getColor(context).primary,),
-                                ],
-                              ),
-                            ),
-                          );
+                          return const FeedBackBottomSheet();
                         });
                   },
                 ),
                 const SizedBox(
                   height: 8,
                 ),
-                const Row(
+                Row(
                   children: [
                     Expanded(
                       child: SettingsBlock(
                         imagePath: 'assets/images/privacy_policy.svg',
                         text: 'Privacy Policy',
+                        onTap: () {
+                          Navigator.of(context).push(CupertinoPageRoute(builder: (ctx) {
+                            return const PrivacyPolicyPage(
+                              title: 'Privacy Policy',
+                              text: privacyPolicy,
+                            );
+                          }));
+                        },
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Expanded(
                       child: SettingsBlock(
                         imagePath: 'assets/images/terms_of_use.svg',
                         text: 'Terms of Use',
+                        onTap: () {
+                          Navigator.of(context).push(CupertinoPageRoute(builder: (ctx) {
+                            return const PrivacyPolicyPage(
+                              title: 'Terms of Use',
+                              text: termOfUse,
+                            );
+                          }));
+                        },
                       ),
                     ),
                   ],

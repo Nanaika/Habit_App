@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 const defLetterSpacing = -0.75;
 const defPaddingH = 16.0;
 const defButtonPadding = 16.0;
@@ -12,15 +13,44 @@ const green = Color(0xffA2E492);
 
 final lightTheme = ThemeData(
   textTheme: const TextTheme(
-    displayLarge: TextStyle(letterSpacing: defLetterSpacing, fontWeight: FontWeight.w700, fontSize: 32,),
-    displayMedium: TextStyle(letterSpacing: defLetterSpacing, fontWeight: FontWeight.w500, fontSize: 24,),
-    displaySmall: TextStyle(letterSpacing: defLetterSpacing, fontSize: 18, fontWeight: FontWeight.w600,),
+    displayLarge: TextStyle(
+      letterSpacing: defLetterSpacing,
+      fontWeight: FontWeight.w700,
+      fontSize: 32,
+    ),
+    displayMedium: TextStyle(
+      letterSpacing: defLetterSpacing,
+      fontWeight: FontWeight.w500,
+      fontSize: 24,
+    ),
+    displaySmall: TextStyle(
+      letterSpacing: defLetterSpacing,
+      fontSize: 18,
+      fontWeight: FontWeight.w600,
+    ),
     bodyLarge: TextStyle(letterSpacing: defLetterSpacing, fontSize: 16, fontWeight: FontWeight.w600),
-    bodyMedium: TextStyle(letterSpacing: defLetterSpacing, fontSize: 16, fontWeight: FontWeight.w500,),
-    bodySmall: TextStyle(letterSpacing: defLetterSpacing, fontSize: 16,),
-    labelLarge: TextStyle(letterSpacing: defLetterSpacing, fontSize: 14, fontWeight: FontWeight.w500,),
-    labelMedium: TextStyle(letterSpacing: defLetterSpacing, fontSize: 12,),
-    labelSmall: TextStyle(letterSpacing: defLetterSpacing, fontSize: 10,),
+    bodyMedium: TextStyle(
+      letterSpacing: defLetterSpacing,
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+    ),
+    bodySmall: TextStyle(
+      letterSpacing: defLetterSpacing,
+      fontSize: 16,
+    ),
+    labelLarge: TextStyle(
+      letterSpacing: defLetterSpacing,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+    ),
+    labelMedium: TextStyle(
+      letterSpacing: defLetterSpacing,
+      fontSize: 12,
+    ),
+    labelSmall: TextStyle(
+      letterSpacing: defLetterSpacing,
+      fontSize: 10,
+    ),
   ),
   fontFamily: 'sf',
   useMaterial3: true,
@@ -61,6 +91,32 @@ void setDarkSystemBars() {
 TextTheme getTextTheme(BuildContext context) {
   return Theme.of(context).textTheme;
 }
+
 ColorScheme getColor(BuildContext context) {
   return Theme.of(context).colorScheme;
 }
+
+const String privacyPolicy =
+    ''' The prohibited or acceptable use clause in your terms of use agreement outlines all rules your users must follow when accessing your services.
+  Here is where you can list and ban behaviors and activities like:
+    \u25CF Obscene, crude, or violent posts
+    \u25CF False or misleading content
+    \u25CF Breaking the law
+    \u25CF Spamming or scamming the service or other users
+    \u25CF Hacking or tampering with your website or app
+    \u25CF Violating copyright laws
+    \u25CF Harassing other users
+    \u25CF Stalking other users
+  If your website or app gives users a lot of control and freedom while using your services, consider putting multiple use clauses within your terms of use.''';
+const String termOfUse =
+    ''' The prohibited or acceptable use clause in your terms of use agreement outlines all rules your users must follow when accessing your services.
+  Here is where you can list and ban behaviors and activities like:
+    \u25CF Obscene, crude, or violent posts
+    \u25CF False or misleading content
+    \u25CF Breaking the law
+    \u25CF Spamming or scamming the service or other users
+    \u25CF Hacking or tampering with your website or app
+    \u25CF Violating copyright laws
+    \u25CF Harassing other users
+    \u25CF Stalking other users
+  If your website or app gives users a lot of control and freedom while using your services, consider putting multiple use clauses within your terms of use.''';
