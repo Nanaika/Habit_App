@@ -38,7 +38,8 @@ class FeedBackBottomSheet extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const CustomTextField(
+            CustomTextField(
+              controller: TextEditingController(),
               hintText: 'Text',
               textAlign: TextAlign.start,
               minLines: 6,

@@ -42,7 +42,8 @@ class AddGoalDialog extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const CustomTextField(
+            CustomTextField(
+              controller: TextEditingController(),
               hintText: 'Name goal',
             ),
             const SizedBox(
@@ -61,19 +62,21 @@ class AddGoalDialog extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const Row(
+                Row(
                   children: [
                     Expanded(
                       child: CustomTextField(
+                        controller: TextEditingController(),
                         hintText: 'Hours',
                         textAlign: TextAlign.start,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Expanded(
                       child: CustomTextField(
+                        controller: TextEditingController(),
                         hintText: 'Mins',
                         textAlign: TextAlign.start,
                       ),

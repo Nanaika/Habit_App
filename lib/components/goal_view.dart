@@ -37,11 +37,8 @@ class GoalView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(7, (index) {
                   return Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(right: index == 6 ? 0 : 3),
-                      child: GoalWeekDayTile(
-                        text: 'S',
-                      ),
+                    child: GoalWeekDayTile(
+                      text: 'S',
                     ),
                   );
 
@@ -82,28 +79,26 @@ class GoalWeekDayTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Material(
-        color: isCompleted ? red : getColor(context).onSurface,
-        borderRadius: BorderRadius.circular(8),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              strokeAlign: -1,
-              color: isCurrentDate ? red : Colors.transparent,
-              width: isCurrentDate ? 0.75 : 0,
-            ),
+    return Material(
+      color: isCompleted ? red : getColor(context).onSurface,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            strokeAlign: -1,
+            color: isCurrentDate ? red : Colors.transparent,
+            width: isCurrentDate ? 0.75 : 0,
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-            child: Text(
-              textAlign: TextAlign.center,
-              text,
-              style: getTextTheme(context)
-                  .labelLarge
-                  ?.copyWith(color: isCompleted ? getColor(context).surfaceTint : getColor(context).onPrimary),
-            ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          child: Text(
+            textAlign: TextAlign.center,
+            text,
+            style: getTextTheme(context)
+                .labelLarge
+                ?.copyWith(color: isCompleted ? getColor(context).surfaceTint : getColor(context).onPrimary),
           ),
         ),
       ),

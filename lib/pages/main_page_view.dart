@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habit_app/bloc/task_bloc.dart';
 import 'package:habit_app/theme.dart';
 
 import '../components/add_task_button.dart';
@@ -8,7 +10,9 @@ import '../components/completed_task_container.dart';
 import '../components/empty_task_view.dart';
 import '../components/image_row.dart';
 import '../components/task_chips_row.dart';
+import '../components/task_tile.dart';
 import '../components/title_row.dart';
+import '../domain/models/task.dart';
 
 class MainPageView extends StatefulWidget {
   const MainPageView({super.key});
@@ -106,10 +110,33 @@ class _MainPageViewState extends State<MainPageView> {
                 const SizedBox(
                   height: 16,
                 ),
-                const EmptyView(
-                  text: 'You don\'t have any tasks added, add a task and it will appear here.',
-                  imagePath: 'assets/images/bb_home.svg',
-                ),
+                BlocBuilder<TaskBloc, List<Task>>(builder: (ctx, tasks) {
+                  if (tasks.isEmpty) {
+                    return const EmptyView(
+                      text: 'You don\'t have any tasks added, add a task and it will appear here.',
+                      imagePath: 'assets/images/bb_home.svg',
+                    );
+                  } else {
+                    return Expanded(
+                      child: ListView.separated(
+                          itemBuilder: (ctx, index) {
+                            return TaskTile(
+                              key: ValueKey(tasks[index].id),
+                              task: tasks[index],
+                              onDelete: (id) {
+                                context.read<TaskBloc>().deleteTask(id);
+                              },
+                            );
+                          },
+                          separatorBuilder: (ctx, index) {
+                            return const SizedBox(
+                              height: 4,
+                            );
+                          },
+                          itemCount: tasks.length),
+                    );
+                  }
+                }),
                 const SizedBox(
                   height: 4,
                 ),
@@ -121,6 +148,9 @@ class _MainPageViewState extends State<MainPageView> {
                           return const AddTaskDialog();
                         });
                   },
+                ),
+                const SizedBox(
+                  height: 6,
                 ),
               ],
             ),
