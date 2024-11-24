@@ -162,7 +162,7 @@ class _EditHabitDialogState extends State<EditHabitDialog> with SingleTickerProv
         type: HabitType.values[tabController.index],
         numOfRepetition: numOfRepsController.text != '' ? int.parse(numOfRepsController.text) : 0,
         category: HabitCategory.values[categoryIndex],
-        dateCreated: DateTime.now());
+        dateCreated: DateTime.now(), daysComplete: [], weeksComplete: []);
     context.read<HabitBloc>().updateHabit(id, habit);
   }
 }

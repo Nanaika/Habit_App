@@ -28,26 +28,36 @@ const HabitSchema = CollectionSchema(
       name: r'dateCreated',
       type: IsarType.dateTime,
     ),
-    r'isComplete': PropertySchema(
+    r'daysComplete': PropertySchema(
       id: 2,
+      name: r'daysComplete',
+      type: IsarType.dateTimeList,
+    ),
+    r'isComplete': PropertySchema(
+      id: 3,
       name: r'isComplete',
       type: IsarType.bool,
     ),
     r'name': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'name',
       type: IsarType.string,
     ),
     r'numOfRepetition': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'numOfRepetition',
       type: IsarType.long,
     ),
     r'type': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'type',
       type: IsarType.byte,
       enumMap: _HabittypeEnumValueMap,
+    ),
+    r'weeksComplete': PropertySchema(
+      id: 7,
+      name: r'weeksComplete',
+      type: IsarType.longList,
     )
   },
   estimateSize: _habitEstimateSize,
@@ -70,7 +80,9 @@ int _habitEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.daysComplete.length * 8;
   bytesCount += 3 + object.name.length * 3;
+  bytesCount += 3 + object.weeksComplete.length * 8;
   return bytesCount;
 }
 
@@ -82,10 +94,12 @@ void _habitSerialize(
 ) {
   writer.writeByte(offsets[0], object.category.index);
   writer.writeDateTime(offsets[1], object.dateCreated);
-  writer.writeBool(offsets[2], object.isComplete);
-  writer.writeString(offsets[3], object.name);
-  writer.writeLong(offsets[4], object.numOfRepetition);
-  writer.writeByte(offsets[5], object.type.index);
+  writer.writeDateTimeList(offsets[2], object.daysComplete);
+  writer.writeBool(offsets[3], object.isComplete);
+  writer.writeString(offsets[4], object.name);
+  writer.writeLong(offsets[5], object.numOfRepetition);
+  writer.writeByte(offsets[6], object.type.index);
+  writer.writeLongList(offsets[7], object.weeksComplete);
 }
 
 Habit _habitDeserialize(
@@ -98,11 +112,13 @@ Habit _habitDeserialize(
     category: _HabitcategoryValueEnumMap[reader.readByteOrNull(offsets[0])] ??
         HabitCategory.sport,
     dateCreated: reader.readDateTime(offsets[1]),
-    isComplete: reader.readBoolOrNull(offsets[2]) ?? false,
-    name: reader.readString(offsets[3]),
-    numOfRepetition: reader.readLong(offsets[4]),
-    type: _HabittypeValueEnumMap[reader.readByteOrNull(offsets[5])] ??
+    daysComplete: reader.readDateTimeList(offsets[2]) ?? [],
+    isComplete: reader.readBoolOrNull(offsets[3]) ?? false,
+    name: reader.readString(offsets[4]),
+    numOfRepetition: reader.readLong(offsets[5]),
+    type: _HabittypeValueEnumMap[reader.readByteOrNull(offsets[6])] ??
         HabitType.daily,
+    weeksComplete: reader.readLongList(offsets[7]) ?? [],
   );
   object.id = id;
   return object;
@@ -121,14 +137,18 @@ P _habitDeserializeProp<P>(
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readDateTimeList(offset) ?? []) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 4:
-      return (reader.readLong(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 5:
+      return (reader.readLong(offset)) as P;
+    case 6:
       return (_HabittypeValueEnumMap[reader.readByteOrNull(offset)] ??
           HabitType.daily) as P;
+    case 7:
+      return (reader.readLongList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -352,6 +372,145 @@ extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
         upper: upper,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> daysCompleteElementEqualTo(
+      DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'daysComplete',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition>
+      daysCompleteElementGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'daysComplete',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> daysCompleteElementLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'daysComplete',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> daysCompleteElementBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'daysComplete',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> daysCompleteLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'daysComplete',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> daysCompleteIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'daysComplete',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> daysCompleteIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'daysComplete',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> daysCompleteLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'daysComplete',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition>
+      daysCompleteLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'daysComplete',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> daysCompleteLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'daysComplete',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
     });
   }
 
@@ -650,6 +809,146 @@ extension HabitQueryFilter on QueryBuilder<Habit, Habit, QFilterCondition> {
       ));
     });
   }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> weeksCompleteElementEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'weeksComplete',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition>
+      weeksCompleteElementGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'weeksComplete',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition>
+      weeksCompleteElementLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'weeksComplete',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> weeksCompleteElementBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'weeksComplete',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> weeksCompleteLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'weeksComplete',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> weeksCompleteIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'weeksComplete',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> weeksCompleteIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'weeksComplete',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> weeksCompleteLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'weeksComplete',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition>
+      weeksCompleteLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'weeksComplete',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Habit, Habit, QAfterFilterCondition> weeksCompleteLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'weeksComplete',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
 }
 
 extension HabitQueryObject on QueryBuilder<Habit, Habit, QFilterCondition> {}
@@ -829,6 +1128,12 @@ extension HabitQueryWhereDistinct on QueryBuilder<Habit, Habit, QDistinct> {
     });
   }
 
+  QueryBuilder<Habit, Habit, QDistinct> distinctByDaysComplete() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'daysComplete');
+    });
+  }
+
   QueryBuilder<Habit, Habit, QDistinct> distinctByIsComplete() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isComplete');
@@ -853,6 +1158,12 @@ extension HabitQueryWhereDistinct on QueryBuilder<Habit, Habit, QDistinct> {
       return query.addDistinctBy(r'type');
     });
   }
+
+  QueryBuilder<Habit, Habit, QDistinct> distinctByWeeksComplete() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'weeksComplete');
+    });
+  }
 }
 
 extension HabitQueryProperty on QueryBuilder<Habit, Habit, QQueryProperty> {
@@ -871,6 +1182,12 @@ extension HabitQueryProperty on QueryBuilder<Habit, Habit, QQueryProperty> {
   QueryBuilder<Habit, DateTime, QQueryOperations> dateCreatedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dateCreated');
+    });
+  }
+
+  QueryBuilder<Habit, List<DateTime>, QQueryOperations> daysCompleteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'daysComplete');
     });
   }
 
@@ -895,6 +1212,12 @@ extension HabitQueryProperty on QueryBuilder<Habit, Habit, QQueryProperty> {
   QueryBuilder<Habit, HabitType, QQueryOperations> typeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'type');
+    });
+  }
+
+  QueryBuilder<Habit, List<int>, QQueryOperations> weeksCompleteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'weeksComplete');
     });
   }
 }

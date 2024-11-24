@@ -6,6 +6,7 @@ import 'package:habit_app/components/add_habit_dialog.dart';
 import 'package:habit_app/components/sub_title.dart';
 import 'package:habit_app/theme.dart';
 import 'package:habit_app/utils/string_extensions.dart';
+import 'package:intl/intl.dart';
 
 import '../components/create_goal_button.dart';
 import '../components/empty_task_view.dart';
@@ -93,6 +94,7 @@ class _HabitPageViewState extends State<HabitPageView> {
                                     habitName: habits[index].name,
                                     habitCategory: habits[index].category.name.capitalizeFirst(),
                                     onTap: () {
+
                                       showModalBottomSheet(
                                           isScrollControlled: true,
                                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -105,8 +107,8 @@ class _HabitPageViewState extends State<HabitPageView> {
                                           });
                                     },
                                     numOfReps: habits[index].numOfRepetition.toString(),
-                                    currentNumOfReps: '3',
-                                    completedValue: 0.5,
+                                    currentNumOfReps: habits[index].daysComplete.length.toString(),
+                                    completedValue: calculatePercentage(habits[index].daysComplete.length, habits[index].numOfRepetition),
                                   );
                                 },
                                 separatorBuilder: (ctx, index) {
@@ -157,7 +159,7 @@ class _HabitPageViewState extends State<HabitPageView> {
                               name: habits[index].name,
                               assetPath: getCategoryAsset(habits[index].category),
                               type: habits[index].type.name.capitalizeFirst(),
-                              isComplete: habits[index].isComplete,
+                              isComplete: isHabitCompletedToday(habits[index].daysComplete),
                             );
                           },
                           separatorBuilder: (context, index) {
@@ -179,3 +181,5 @@ class _HabitPageViewState extends State<HabitPageView> {
     );
   }
 }
+
+

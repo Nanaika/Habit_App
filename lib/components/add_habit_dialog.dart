@@ -149,11 +149,14 @@ class _AddHabitDialogState extends State<AddHabitDialog> with SingleTickerProvid
 
   void saveHabit(BuildContext context) {
     final habit = Habit(
-        name: nameController.text,
-        type: HabitType.values[tabController.index],
-        numOfRepetition: numOfRepsController.text != '' ? int.parse(numOfRepsController.text) : 0,
-        category: HabitCategory.values[categoryIndex],
-        dateCreated: DateTime.now());
+      name: nameController.text,
+      type: HabitType.values[tabController.index],
+      numOfRepetition: numOfRepsController.text != '' ? int.parse(numOfRepsController.text) : 0,
+      category: HabitCategory.values[categoryIndex],
+      dateCreated: DateTime.now(),
+      daysComplete: [],
+      weeksComplete: [],
+    );
     context.read<HabitBloc>().saveHabit(habit);
   }
 }

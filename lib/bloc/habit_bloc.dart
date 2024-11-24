@@ -31,6 +31,21 @@ class HabitBloc extends Cubit<List<Habit>> {
 
   void updateHabitComplete(int id, bool isComplete) async {
     Habit? habit = await db.habits.get(id);
+    if (habit != null) {
+      final currentDay = DateTime.now();
+      if (isComplete) {
+        if (habit.type == HabitType.daily) {
+          if (!habit.daysComplete.any(
+            (date) => _isSameDay(date, currentDay),
+          )) {
+            habit.daysComplete.add(currentDay);
+          }
+        }
+      } else {
+        habit.daysComplete.removeWhere((date) => _isSameDay(date, currentDay));
+      }
+    }
+
     habit?.isComplete = isComplete;
     await db.writeTxn(() async {
       await db.habits.put(habit!);
@@ -50,4 +65,8 @@ class HabitBloc extends Cubit<List<Habit>> {
     final habits = await db.habits.where().sortByDateCreatedDesc().findAll();
     emit([...habits]);
   }
+}
+
+bool _isSameDay(DateTime date1, DateTime date2) {
+  return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
 }

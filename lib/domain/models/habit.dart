@@ -13,6 +13,8 @@ class Habit {
   HabitCategory category;
   DateTime dateCreated;
   bool isComplete;
+  List<DateTime> daysComplete;
+  List<int> weeksComplete;
 
   Habit({
     required this.name,
@@ -21,6 +23,8 @@ class Habit {
     required this.category,
     required this.dateCreated,
     this.isComplete = false,
+    required this.daysComplete,
+    required this.weeksComplete,
   });
 
   Habit copyWith({
@@ -30,6 +34,8 @@ class Habit {
     HabitCategory? category,
     DateTime? dateCreated,
     bool? isComplete,
+    List<DateTime>? daysComplete,
+    List<int>? weeksComplete,
   }) {
     return Habit(
       name: name ?? this.name,
@@ -38,6 +44,8 @@ class Habit {
       category: category ?? this.category,
       dateCreated: dateCreated ?? this.dateCreated,
       isComplete: isComplete ?? this.isComplete,
+      daysComplete: daysComplete ?? this.daysComplete,
+      weeksComplete: weeksComplete ?? this.weeksComplete,
     );
   }
 

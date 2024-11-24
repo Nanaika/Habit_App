@@ -44,3 +44,54 @@ int findCategoryIndex(HabitCategory category) {
     HabitCategory.other => 6,
   };
 }
+
+
+List<DateTime> getWeekDays(DateTime date) {
+  // Находим день недели для текущей даты
+  int dayOfWeek = date.weekday;
+
+  // Вычисляем начало недели (понедельник)
+  DateTime startOfWeek = date.subtract(Duration(days: dayOfWeek - 1));
+
+  // Создаём список всех дней недели
+  List<DateTime> weekDays = List.generate(7, (index) {
+    return startOfWeek.add(Duration(days: index)); // Добавляем дни к началу недели
+  });
+
+  return weekDays;
+}
+
+int getWeekOfYear(DateTime date) {
+  // Получаем первый день года
+  DateTime firstDayOfYear = DateTime(date.year, 1, 1);
+
+  // Вычисляем день недели для первого дня года
+  int weekdayOfFirstDay = firstDayOfYear.weekday;
+
+  // Если первый день года не понедельник, сдвигаем дату на ближайший понедельник
+  DateTime adjustedFirstDay = weekdayOfFirstDay <= DateTime.monday
+      ? firstDayOfYear.subtract(Duration(days: weekdayOfFirstDay - 1))
+      : firstDayOfYear.add(Duration(days: DateTime.daysPerWeek - weekdayOfFirstDay + 1));
+
+  // Вычисляем разницу в днях между датой и первым понедельником
+  int differenceInDays = date.difference(adjustedFirstDay).inDays;
+
+  // Вычисляем номер недели
+  int weekNumber = (differenceInDays / 7).floor() + 1;
+
+  return weekNumber;
+}
+double calculatePercentage(int currentAttempts, int maxAttempts) {
+  if (maxAttempts == 0) return 0; // защита от деления на ноль
+  return (currentAttempts / maxAttempts);
+}
+
+bool isHabitCompletedToday(List<DateTime> completedDays) {
+  final today = DateTime.now();
+  return completedDays.any(
+        (elem) =>
+    elem.year == today.year &&
+        elem.month == today.month &&
+        elem.day == today.day,
+  );
+}

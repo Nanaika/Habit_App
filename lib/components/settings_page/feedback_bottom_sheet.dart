@@ -28,11 +28,13 @@ class FeedBackBottomSheet extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DisplaySmall(text: 'Feedback'),
-                CloseCircleButton(),
+                const DisplaySmall(text: 'Feedback'),
+                CloseCircleButton(onTap: () {
+                  Navigator.of(context).pop();
+                },),
               ],
             ),
             const SizedBox(
