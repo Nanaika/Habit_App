@@ -71,6 +71,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/images/habit_category/
   #   - images/a_dot_ham.jpeg
 
 

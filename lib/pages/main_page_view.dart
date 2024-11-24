@@ -66,19 +66,19 @@ class _MainPageViewState extends State<MainPageView> {
                 ),
                 Builder(builder: (context) {
                   if (selectedCompletedDaily == 0) {
-                    return const CompletedTasksContainer(
+                    return const CompletedItemsContainer(
                       title: 'Work',
                       completedValue: 0.33,
                       completedPercent: 33,
                     );
                   } else if (selectedCompletedDaily == 1) {
-                    return const CompletedTasksContainer(
+                    return const CompletedItemsContainer(
                       title: 'Meetings',
                       completedValue: 0,
                       completedPercent: 0,
                     );
                   } else {
-                    return const CompletedTasksContainer(
+                    return const CompletedItemsContainer(
                       title: 'Home',
                       completedValue: 0.90,
                       completedPercent: 90,
@@ -114,7 +114,7 @@ class _MainPageViewState extends State<MainPageView> {
                   if (tasks.isEmpty) {
                     return const EmptyView(
                       text: 'You don\'t have any tasks added, add a task and it will appear here.',
-                      imagePath: 'assets/images/bb_home.svg',
+                      imagePath: 'assets/images/home.svg',
                     );
                   } else {
                     return Expanded(

@@ -17,7 +17,7 @@ class CompletedDailyChipsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Chip(
+        CustomChip(
           isChecked: selectedIndex == 0 ? true : false,
           text: 'Work',
           onTap: () {
@@ -27,7 +27,7 @@ class CompletedDailyChipsRow extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-        Chip(
+        CustomChip(
           isChecked: selectedIndex == 1 ? true : false,
           text: 'Meetings',
           onTap: () {
@@ -37,7 +37,7 @@ class CompletedDailyChipsRow extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-        Chip(
+        CustomChip(
           isChecked: selectedIndex == 2 ? true : false,
           text: 'Home',
           onTap: () {

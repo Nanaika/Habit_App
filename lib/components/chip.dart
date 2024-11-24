@@ -1,18 +1,23 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../theme.dart';
 
-class Chip extends StatelessWidget {
-  const Chip({
+class CustomChip extends StatelessWidget {
+  const CustomChip({
     super.key,
     required this.text,
     this.onTap,
     required this.isChecked,
+    this.isCheckedColor = blue,
+    this.assetPath,
   });
 
   final String text;
   final void Function()? onTap;
   final bool isChecked;
+  final Color isCheckedColor;
+  final String? assetPath;
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +27,27 @@ class Chip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(defBorderRadius),
-          color: isChecked ? blue : getColor(context).surfaceTint,
+          color: isChecked ? isCheckedColor : getColor(context).surfaceTint,
         ),
-        child: Text(
-          text,
-          style: getTextTheme(context)
-              .bodyMedium
-              ?.copyWith(color: isChecked ? getColor(context).surfaceTint : getColor(context).onPrimary),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (assetPath != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: SvgPicture.asset(
+                  assetPath!,
+                  colorFilter: ColorFilter.mode(
+                      isChecked ? getColor(context).surfaceTint : getColor(context).onPrimary, BlendMode.srcIn),
+                ),
+              ),
+            Text(
+              text,
+              style: getTextTheme(context)
+                  .bodyMedium
+                  ?.copyWith(color: isChecked ? getColor(context).surfaceTint : getColor(context).onPrimary),
+            ),
+          ],
         ),
       ),
     );

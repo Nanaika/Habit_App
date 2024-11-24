@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:habit_app/components/custom_button.dart';
 import 'package:habit_app/components/custom_no_icon_button.dart';
 import 'package:habit_app/theme.dart';
 
@@ -32,31 +31,29 @@ class GoalView extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(7, (index) {
-                  return Expanded(
-                    child: GoalWeekDayTile(
-                      text: 'S',
-                    ),
-                  );
-
+                return Expanded(
+                  child: GoalWeekDayTile(
+                    text: 'S',
+                  ),
+                );
               }),
             ),
-
             const SizedBox(
               height: 8,
             ),
             Row(
-              children: [
-                LabelLarge(text: ' 0 of 7 goals accomplished this week.')
-              ],
+              children: [LabelLarge(text: ' 0 of 7 goals accomplished this week.')],
             ),
             const SizedBox(
               height: 12,
             ),
-            CustomNoIconButton(text: 'Execute', onTap: () {},)
+            CustomNoIconButton(
+              text: 'Execute',
+              onTap: () {},
+            )
           ],
         ),
       ),
@@ -185,7 +182,9 @@ class LabelLarge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: getTextTheme(context).labelLarge?.copyWith(color: getColor(context).onPrimary),
+      style: getTextTheme(context)
+          .labelLarge
+          ?.copyWith(color: getColor(context).onPrimary, overflow: TextOverflow.ellipsis),
     );
   }
 }

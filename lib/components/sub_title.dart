@@ -12,13 +12,9 @@ class SubTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          text,
-          style: getTextTheme(context).bodyMedium?.copyWith(color: getColor(context).onPrimary),
-        )
-      ],
+    return Text(
+      text,
+      style: getTextTheme(context).bodyMedium?.copyWith(color: getColor(context).onPrimary),
     );
   }
 }

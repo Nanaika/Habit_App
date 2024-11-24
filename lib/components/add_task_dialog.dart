@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_app/components/body_medium.dart';
 import 'package:habit_app/components/tab_bar_task_type.dart';
-import 'package:habit_app/utils/utils.dart';
 
 import '../bloc/task_bloc.dart';
 import '../domain/models/task.dart';
@@ -41,9 +40,8 @@ class _AddTaskDialogState extends State<AddTaskDialog> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    print('TABCONTROLLER index ------ ${tabController.index}');
     return AlertDialog(
-      insetPadding: EdgeInsets.zero,
+      insetPadding: const EdgeInsets.all(12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),

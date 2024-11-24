@@ -15,7 +15,7 @@ class AddGoalDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      insetPadding: EdgeInsets.zero,
+      insetPadding: const EdgeInsets.all(12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),

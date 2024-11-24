@@ -41,7 +41,8 @@ class _HealthPageViewState extends State<HealthPageView> {
                     const TitleRow(
                       text: 'Health',
                     ),
-                    CreateGoalButton(
+                    AddButton(
+                      text: 'Create goal',
                       onTap: () {
                         showDialog(
                             context: context,
@@ -69,7 +70,11 @@ class _HealthPageViewState extends State<HealthPageView> {
                 const SizedBox(
                   height: 12,
                 ),
-                const SubTitle(text: 'Goals'),
+                const Row(
+                  children: [
+                    SubTitle(text: 'Goals'),
+                  ],
+                ),
                 const SizedBox(
                   height: 12,
                 ),
@@ -79,7 +84,7 @@ class _HealthPageViewState extends State<HealthPageView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             EmptyView(
-                              imagePath: 'assets/images/bb_health.svg',
+                              imagePath: 'assets/images/heart.svg',
                               text:
                                   'You do not have any health goals added, to add a goal click on the “Create goal” button.',
                             ),

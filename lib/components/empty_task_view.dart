@@ -17,7 +17,7 @@ class EmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SvgPicture.asset(imagePath, width: 60, height: 60, colorFilter: ColorFilter.mode(getColor(context).onSurface, BlendMode.srcIn),),
+        SvgPicture.asset(imagePath, width: 60, height: 60,),
         FractionallySizedBox(
           widthFactor: 0.75,
           child: Text(

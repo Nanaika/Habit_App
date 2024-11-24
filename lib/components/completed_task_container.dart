@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-class CompletedTasksContainer extends StatelessWidget {
-  const CompletedTasksContainer({
+class CompletedItemsContainer extends StatelessWidget {
+  const CompletedItemsContainer({
     super.key,
     required this.title,
     required this.completedValue,
@@ -36,13 +36,7 @@ class CompletedTasksContainer extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          LinearProgressIndicator(
-            color: blue,
-            backgroundColor: getColor(context).onSurface,
-            minHeight: 8,
-            value: completedValue,
-            borderRadius: BorderRadius.circular(defBorderRadius / 2),
-          ),
+          CompleteProgressBar(completedValue: completedValue),
           const SizedBox(
             height: 6,
           ),
@@ -62,6 +56,29 @@ class CompletedTasksContainer extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class CompleteProgressBar extends StatelessWidget {
+  const CompleteProgressBar({
+    super.key,
+    required this.completedValue, this.color = blue, this.borderRadius = 16.0, this.minHeight = 8,
+  });
+
+  final double completedValue;
+  final Color color;
+  final double borderRadius;
+  final double minHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return LinearProgressIndicator(
+      color: color,
+      backgroundColor: getColor(context).onSurface,
+      minHeight: minHeight,
+      value: completedValue,
+      borderRadius: BorderRadius.circular(borderRadius),
     );
   }
 }
