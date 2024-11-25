@@ -12,7 +12,6 @@ import '../components/image_row.dart';
 import '../components/task_chips_row.dart';
 import '../components/task_tile.dart';
 import '../components/title_row.dart';
-import '../domain/models/task.dart';
 
 class MainPageView extends StatefulWidget {
   const MainPageView({super.key});
@@ -64,24 +63,37 @@ class _MainPageViewState extends State<MainPageView> {
                 const SizedBox(
                   height: 8,
                 ),
-                Builder(builder: (context) {
+                BlocBuilder<TaskBloc, MyTasks>(builder: (ctx, state) {
                   if (selectedCompletedDaily == 0) {
-                    return const CompletedItemsContainer(
+                    return CompletedItemsContainer(
                       title: 'Work',
-                      completedValue: 0.33,
-                      completedPercent: 33,
+                      completedValue: calculateCompletionPercentage(state.completedDailyTasks.workCompletedTasks.length,
+                              state.completedDailyTasks.workTasksLength) /
+                          100,
+                      completedPercent: calculateCompletionPercentage(
+                          state.completedDailyTasks.workCompletedTasks.length,
+                          state.completedDailyTasks.workTasksLength),
                     );
                   } else if (selectedCompletedDaily == 1) {
-                    return const CompletedItemsContainer(
+                    return CompletedItemsContainer(
                       title: 'Meetings',
-                      completedValue: 0,
-                      completedPercent: 0,
+                      completedValue: calculateCompletionPercentage(
+                              state.completedDailyTasks.meetingsCompletedTasks.length,
+                              state.completedDailyTasks.meetingsTasksLength) /
+                          100,
+                      completedPercent: calculateCompletionPercentage(
+                          state.completedDailyTasks.meetingsCompletedTasks.length,
+                          state.completedDailyTasks.meetingsTasksLength),
                     );
                   } else {
-                    return const CompletedItemsContainer(
+                    return CompletedItemsContainer(
                       title: 'Home',
-                      completedValue: 0.90,
-                      completedPercent: 90,
+                      completedValue: calculateCompletionPercentage(state.completedDailyTasks.homeCompletedTasks.length,
+                              state.completedDailyTasks.homeTasksLength) /
+                          100,
+                      completedPercent: calculateCompletionPercentage(
+                          state.completedDailyTasks.homeCompletedTasks.length,
+                          state.completedDailyTasks.homeTasksLength),
                     );
                   }
                 }),
@@ -110,33 +122,61 @@ class _MainPageViewState extends State<MainPageView> {
                 const SizedBox(
                   height: 16,
                 ),
-                BlocBuilder<TaskBloc, List<Task>>(builder: (ctx, tasks) {
-                  if (tasks.isEmpty) {
-                    return const EmptyView(
-                      text: 'You don\'t have any tasks added, add a task and it will appear here.',
-                      imagePath: 'assets/images/home.svg',
-                    );
-                  } else {
-                    return Expanded(
-                      child: ListView.separated(
-                          itemBuilder: (ctx, index) {
-                            return TaskTile(
-                              key: ValueKey(tasks[index].id),
-                              task: tasks[index],
-                              onDelete: (id) {
-                                context.read<TaskBloc>().deleteTask(id);
-                              },
-                            );
-                          },
-                          separatorBuilder: (ctx, index) {
-                            return const SizedBox(
-                              height: 4,
-                            );
-                          },
-                          itemCount: tasks.length),
-                    );
-                  }
-                }),
+                selectedTasks == 0
+                    ? BlocBuilder<TaskBloc, MyTasks>(builder: (ctx, tasks) {
+                        if (tasks.dailyTasks.isEmpty) {
+                          return const EmptyView(
+                            text: 'You don\'t have any tasks added, add a task and it will appear here.',
+                            imagePath: 'assets/images/home.svg',
+                          );
+                        } else {
+                          return Expanded(
+                            child: ListView.separated(
+                                itemBuilder: (ctx, index) {
+                                  return TaskTile(
+                                    key: ValueKey(tasks.dailyTasks[index].id),
+                                    task: tasks.dailyTasks[index],
+                                    onDelete: (id) {
+                                      context.read<TaskBloc>().deleteTask(id);
+                                    },
+                                  );
+                                },
+                                separatorBuilder: (ctx, index) {
+                                  return const SizedBox(
+                                    height: 4,
+                                  );
+                                },
+                                itemCount: tasks.dailyTasks.length),
+                          );
+                        }
+                      })
+                    : BlocBuilder<TaskBloc, MyTasks>(builder: (ctx, tasks) {
+                        if (tasks.weeklyTasks.isEmpty) {
+                          return const EmptyView(
+                            text: 'You don\'t have any tasks added, add a task and it will appear here.',
+                            imagePath: 'assets/images/home.svg',
+                          );
+                        } else {
+                          return Expanded(
+                            child: ListView.separated(
+                                itemBuilder: (ctx, index) {
+                                  return TaskTile(
+                                    key: ValueKey(tasks.weeklyTasks[index].id),
+                                    task: tasks.weeklyTasks[index],
+                                    onDelete: (id) {
+                                      context.read<TaskBloc>().deleteTask(id);
+                                    },
+                                  );
+                                },
+                                separatorBuilder: (ctx, index) {
+                                  return const SizedBox(
+                                    height: 4,
+                                  );
+                                },
+                                itemCount: tasks.weeklyTasks.length),
+                          );
+                        }
+                      }),
                 const SizedBox(
                   height: 4,
                 ),
@@ -159,4 +199,11 @@ class _MainPageViewState extends State<MainPageView> {
       ),
     );
   }
+}
+
+double calculateCompletionPercentage(int completedTasks, int totalTasks) {
+  if (totalTasks == 0) {
+    return 0;
+  }
+  return (completedTasks / totalTasks) * 100;
 }

@@ -93,6 +93,13 @@ bool isHabitCompletedToday(List<DateTime> completedDays) {
   );
 }
 
+bool isHabitCompletedThisWeek(List<int> completedWeek) {
+  final currentWeek = getWeekOfYear(DateTime.now());
+  return completedWeek.any(
+        (elem) => elem == currentWeek,
+  );
+}
+
 int getCurrentStreak(List<DateTime> completedDays) {
   if (completedDays.isEmpty) return 0;
 
@@ -140,26 +147,24 @@ int getMaxStreak(List<DateTime> completedDays) {
 }
 
 
-int getCurrentStreakWeek(List<DateTime> completedDays) {
-  if (completedDays.isEmpty) return 0;
+int getCurrentStreakWeek(List<int> completedWeeks) {
+  if (completedWeeks.isEmpty) return 0;
 
-  // Приводим все даты к формату "год, месяц, день"
-  completedDays = completedDays
-      .map((date) => DateTime(date.year, date.month, date.day))
-      .toList()
-    ..sort(); // Сортируем даты по порядку
+  // Сортируем список выполненных недель
+  completedWeeks.sort();
 
   int currentStreak = 1;
-  DateTime lastCompletedDay = completedDays[0];
+  int lastCompletedWeek = completedWeeks[0];
 
-  for (int i = 1; i < completedDays.length; i++) {
-    // Проверяем, попадают ли две даты в одну неделю
-    if (getWeekNumber(lastCompletedDay) == getWeekNumber(completedDays[i])) {
-      currentStreak++; // Увеличиваем streak, если дата в той же неделе
-    } else {
-      break; // Если день не в той же неделе, завершить streak
+  for (int i = 1; i < completedWeeks.length; i++) {
+    if (completedWeeks[i] == lastCompletedWeek + 1) {
+      // Увеличиваем streak, если недели идут подряд
+      currentStreak++;
+    } else if (completedWeeks[i] > lastCompletedWeek + 1) {
+      // Если разрыв между неделями, streak прерывается
+      break;
     }
-    lastCompletedDay = completedDays[i];
+    lastCompletedWeek = completedWeeks[i];
   }
 
   return currentStreak;
@@ -167,35 +172,29 @@ int getCurrentStreakWeek(List<DateTime> completedDays) {
 
 
 
-int getMaxStreakWeek(List<DateTime> completedDays) {
-  if (completedDays.isEmpty) return 0;
+int getMaxStreakWeeks(List<int> completedWeeks) {
+  if (completedWeeks.isEmpty) return 0;
 
-  // Приводим все даты к формату "год, месяц, день"
-  completedDays = completedDays
-      .map((date) => DateTime(date.year, date.month, date.day))
-      .toList()
-    ..sort(); // Сортируем даты по порядку
+  // Сортируем список выполненных недель
+  completedWeeks.sort();
 
   int maxStreak = 1;
   int currentStreak = 1;
-  DateTime lastCompletedDay = completedDays[0];
 
-  for (int i = 1; i < completedDays.length; i++) {
-    // Проверяем, попадают ли две даты в одну неделю
-    if (getWeekNumber(lastCompletedDay) == getWeekNumber(completedDays[i])) {
-      currentStreak++; // Увеличиваем streak, если дата в той же неделе
-    } else {
-      maxStreak = currentStreak > maxStreak ? currentStreak : maxStreak;
-      currentStreak = 1; // Если день не в той же неделе, сбрасываем streak
+  for (int i = 1; i < completedWeeks.length; i++) {
+    if (completedWeeks[i] == completedWeeks[i - 1] + 1) {
+      // Увеличиваем streak, если недели подряд
+      currentStreak++;
+      maxStreak = maxStreak < currentStreak ? currentStreak : maxStreak;
+    } else if (completedWeeks[i] != completedWeeks[i - 1]) {
+      // Сбрасываем streak, если недели не подряд
+      currentStreak = 1;
     }
-    lastCompletedDay = completedDays[i];
   }
-
-  // Проверка для последнего streak
-  maxStreak = currentStreak > maxStreak ? currentStreak : maxStreak;
 
   return maxStreak;
 }
+
 
 int getWeekNumber(DateTime date) {
   // Используем стандартный алгоритм для нахождения номера недели
@@ -204,5 +203,6 @@ int getWeekNumber(DateTime date) {
   int daysSinceStartOfYear = dayOfYear - startOfYear.weekday + 1;
   return (daysSinceStartOfYear / 7).ceil();
 }
+
 
 

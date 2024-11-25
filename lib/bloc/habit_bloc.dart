@@ -42,21 +42,21 @@ class HabitBloc extends Cubit<List<Habit>> {
             habit.daysComplete.add(currentDay);
           }
         } else {
-          //TODO
-
           if (!habit.weeksComplete.any(
             (date) => date == getWeekOfYear(currentDay),
           )) {
-            habit.weeksComplete.add(getWeekOfYear(currentDay));
+            var weeks = [...habit.weeksComplete];
+            weeks.add(getWeekOfYear(currentDay));
+            habit.weeksComplete = weeks;
           }
-
-          //TODO
         }
       } else {
         if (habit.type == HabitType.daily) {
           habit.daysComplete.removeWhere((date) => _isSameDay(date, currentDay));
         } else {
-          habit.weeksComplete.removeWhere((date) => date == getWeekOfYear(currentDay));
+          var weeks = [...habit.weeksComplete];
+          weeks.removeWhere((date) => date == getWeekOfYear(currentDay));
+          habit.weeksComplete = weeks;
         }
       }
     }

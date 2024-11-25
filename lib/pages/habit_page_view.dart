@@ -163,7 +163,9 @@ class _HabitPageViewState extends State<HabitPageView> {
                               name: habits[index].name,
                               assetPath: getCategoryAsset(habits[index].category),
                               type: habits[index].type.name.capitalizeFirst(),
-                              isComplete: isHabitCompletedToday(habits[index].daysComplete),
+                              isComplete: habits[index].type == HabitType.daily
+                                  ? isHabitCompletedToday(habits[index].daysComplete)
+                                  : isHabitCompletedThisWeek(habits[index].weeksComplete),
                             );
                           },
                           separatorBuilder: (context, index) {

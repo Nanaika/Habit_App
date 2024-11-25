@@ -44,14 +44,14 @@ class _TaskTileState extends State<TaskTile> {
             value: isChecked,
             onChanged: (check) {
 
-              final taskDate = widget.task.date;
-              final currentDate = DateTime.now();
+              // final taskDate = widget.task.date;
+              // final currentDate = DateTime.now();
 
-              if (taskDate.year != currentDate.year ||
-                  taskDate.month != currentDate.month ||
-                  taskDate.day != currentDate.day) {
-                return;
-              }
+              // if (taskDate.year != currentDate.year ||
+              //     taskDate.month != currentDate.month ||
+              //     taskDate.day != currentDate.day) {
+              //   return;
+              // }
 
               setState(() {
                 isChecked = !isChecked;

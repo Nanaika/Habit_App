@@ -60,10 +60,8 @@ class EditBottomSheet extends StatelessWidget {
                 ? habit.daysComplete.length.toString()
                 : habit.weeksComplete.length.toString(),
             completedValue: habit.type == HabitType.daily
-                ? calculatePercentage(
-                habit.daysComplete.length, habit.numOfRepetition)
-                : calculatePercentage(
-                habit.weeksComplete.length, habit.numOfRepetition),
+                ? calculatePercentage(habit.daysComplete.length, habit.numOfRepetition)
+                : calculatePercentage(habit.weeksComplete.length, habit.numOfRepetition),
           ),
           const SizedBox(
             height: 16,
@@ -77,16 +75,20 @@ class EditBottomSheet extends StatelessWidget {
               Expanded(
                   child: StatisticBlock(
                 title: 'Current streak',
-                amount: getCurrentStreak(habit.daysComplete).toString(),
+                amount: habit.type == HabitType.daily
+                    ? getCurrentStreak(habit.daysComplete).toString()
+                    : getCurrentStreakWeek(habit.weeksComplete).toString(),
                 timeUnit: 'days',
               )),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Expanded(
                   child: StatisticBlock(
                 title: 'Best streak day',
-                amount: getMaxStreak(habit.daysComplete).toString(),
+                amount: habit.type == HabitType.daily
+                    ? getMaxStreak(habit.daysComplete).toString()
+                    : getMaxStreakWeeks(habit.weeksComplete).toString(),
                 timeUnit: 'days',
               )),
             ],
@@ -100,13 +102,15 @@ class EditBottomSheet extends StatelessWidget {
                   flex: 1,
                   child: StatisticBlock(
                     title: 'Completed habits',
-                    amount: habit.daysComplete.length.toString(),
+                    amount: habit.type == HabitType.daily
+                        ? habit.daysComplete.length.toString()
+                        : habit.weeksComplete.length.toString(),
                     timeUnit: '/${habit.numOfRepetition}',
                   )),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
-              Expanded(flex: 1, child: SizedBox()),
+              const Expanded(flex: 1, child: SizedBox()),
             ],
           ),
           const SizedBox(
