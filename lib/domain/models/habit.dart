@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:isar/isar.dart';
 
 part 'habit.g.dart';
@@ -15,6 +17,7 @@ class Habit {
   bool isComplete;
   List<DateTime> daysComplete;
   List<int> weeksComplete;
+
 
   Habit({
     required this.name,

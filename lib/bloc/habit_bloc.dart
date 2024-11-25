@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habit_app/utils/utils.dart';
 import 'package:isar/isar.dart';
 
 import '../domain/models/habit.dart';
@@ -40,9 +41,23 @@ class HabitBloc extends Cubit<List<Habit>> {
           )) {
             habit.daysComplete.add(currentDay);
           }
+        } else {
+          //TODO
+
+          if (!habit.weeksComplete.any(
+            (date) => date == getWeekOfYear(currentDay),
+          )) {
+            habit.weeksComplete.add(getWeekOfYear(currentDay));
+          }
+
+          //TODO
         }
       } else {
-        habit.daysComplete.removeWhere((date) => _isSameDay(date, currentDay));
+        if (habit.type == HabitType.daily) {
+          habit.daysComplete.removeWhere((date) => _isSameDay(date, currentDay));
+        } else {
+          habit.weeksComplete.removeWhere((date) => date == getWeekOfYear(currentDay));
+        }
       }
     }
 

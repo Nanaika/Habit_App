@@ -56,8 +56,14 @@ class EditBottomSheet extends StatelessWidget {
             habitName: habit.name,
             habitCategory: habit.category.name.capitalizeFirst(),
             numOfReps: habit.numOfRepetition.toString(),
-            currentNumOfReps: '5',
-            completedValue: 0.5,
+            currentNumOfReps: habit.type == HabitType.daily
+                ? habit.daysComplete.length.toString()
+                : habit.weeksComplete.length.toString(),
+            completedValue: habit.type == HabitType.daily
+                ? calculatePercentage(
+                habit.daysComplete.length, habit.numOfRepetition)
+                : calculatePercentage(
+                habit.weeksComplete.length, habit.numOfRepetition),
           ),
           const SizedBox(
             height: 16,
@@ -66,12 +72,12 @@ class EditBottomSheet extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          const Row(
+          Row(
             children: [
               Expanded(
                   child: StatisticBlock(
                 title: 'Current streak',
-                amount: '5',
+                amount: getCurrentStreak(habit.daysComplete).toString(),
                 timeUnit: 'days',
               )),
               SizedBox(
@@ -80,7 +86,7 @@ class EditBottomSheet extends StatelessWidget {
               Expanded(
                   child: StatisticBlock(
                 title: 'Best streak day',
-                amount: '5',
+                amount: getMaxStreak(habit.daysComplete).toString(),
                 timeUnit: 'days',
               )),
             ],
@@ -88,14 +94,14 @@ class EditBottomSheet extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          const Row(
+          Row(
             children: [
               Expanded(
                   flex: 1,
                   child: StatisticBlock(
                     title: 'Completed habits',
-                    amount: '5',
-                    timeUnit: '/25',
+                    amount: habit.daysComplete.length.toString(),
+                    timeUnit: '/${habit.numOfRepetition}',
                   )),
               SizedBox(
                 width: 8,

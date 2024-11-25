@@ -6,6 +6,7 @@ import 'package:habit_app/components/chip.dart';
 import 'package:habit_app/components/close_circle_button.dart';
 import 'package:habit_app/components/tab_bar_habit_type.dart';
 import 'package:habit_app/utils/string_extensions.dart';
+import 'package:isar/isar.dart';
 
 import '../domain/models/habit.dart';
 import '../theme.dart';
