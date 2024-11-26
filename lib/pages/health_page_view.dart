@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habit_app/bloc/goal_bloc.dart';
 import 'package:habit_app/components/add_goal_dialog.dart';
+import 'package:habit_app/components/edit_goal_bottom_sheet.dart';
 import 'package:habit_app/domain/models/goal.dart';
 import 'package:habit_app/theme.dart';
 
@@ -18,11 +21,6 @@ class HealthPageView extends StatefulWidget {
 }
 
 class _HealthPageViewState extends State<HealthPageView> {
-  int selectedCompletedDaily = 0;
-  int selectedTasks = 0;
-
-  List<Goal> goals = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,18 +45,7 @@ class _HealthPageViewState extends State<HealthPageView> {
                         showDialog(
                             context: context,
                             builder: (ctx) {
-                              return AddGoalDialog(
-                                onTap: () {
-                                  goals.add(Goal(
-                                      type: GoalType.fitness,
-                                      name: 'name',
-                                      duration: const Duration(hours: 1),
-                                      dateCreated: DateTime.now(),
-                                      completed: 0,
-                                      daysCompleted: []));
-                                  setState(() {});
-                                },
-                              );
+                              return AddGoalDialog();
                             });
                       },
                     )
@@ -78,27 +65,48 @@ class _HealthPageViewState extends State<HealthPageView> {
                 const SizedBox(
                   height: 12,
                 ),
-                goals.isEmpty
-                    ? const Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            EmptyView(
-                              imagePath: 'assets/images/heart.svg',
-                              text:
-                                  'You do not have any health goals added, to add a goal click on the “Create goal” button.',
-                            ),
-                          ],
-                        ),
-                      )
-                    :
-                Expanded(
-                  child: ListView.separated(itemBuilder: (ctx, index) {
-                    return GoalView();
-                  }, separatorBuilder: (ctx, index) {
-                    return SizedBox(height: 10,);
-                  }, itemCount: goals.length),
-                ),
+                BlocBuilder<GoalBloc, List<Goal>>(builder: (ctx, state) {
+                  if (state.isEmpty) {
+                    return const Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          EmptyView(
+                            imagePath: 'assets/images/heart.svg',
+                            text:
+                                'You do not have any health goals added, to add a goal click on the “Create goal” button.',
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Expanded(
+                      child: ListView.separated(
+                        itemBuilder: (ctx, index) {
+                          return GoalView(
+                            goal: state[index],
+                            onTap: () {
+                              showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                  backgroundColor: getColor(context).surface,
+                                  context: context,
+                                  builder: (ctx) {
+                                    return EditGoalBottomSheet(goal: state[index]);
+                                  });
+                            },
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            height: 8,
+                          );
+                        },
+                        itemCount: state.length,
+                      ),
+                    );
+                  }
+                }),
               ],
             ),
           ),

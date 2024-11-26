@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:habit_app/bloc/add_goal_type_index_bloc.dart';
 import 'package:habit_app/bloc/bottom_bar_index_bloc.dart';
 import 'package:habit_app/bloc/completed_daily_tasks_bloc.dart';
+import 'package:habit_app/bloc/goal_bloc.dart';
 import 'package:habit_app/bloc/task_bloc.dart';
+import 'package:habit_app/domain/models/goal.dart';
 import 'package:habit_app/domain/models/habit.dart';
 import 'package:habit_app/domain/models/task.dart';
 import 'package:habit_app/pages/root_page.dart';
@@ -22,7 +25,7 @@ void main() async {
 
   final dir = await getApplicationDocumentsDirectory();
   final isar = await Isar.open(
-    [TaskSchema, HabitSchema],
+    [TaskSchema, HabitSchema, GoalSchema],
     directory: dir.path,
   );
 
@@ -42,8 +45,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (ctx) => BottomBarIndexBloc()),
         BlocProvider(create: (ctx) => TaskBloc(db)),
+        BlocProvider(create: (ctx) => GoalBloc(db)),
         BlocProvider(create: (ctx) => HabitBloc(db)),
         BlocProvider(create: (ctx) => CompletedDailyTasksBloc(db)),
+        BlocProvider(create: (ctx) => AddGoalTypeIndexBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

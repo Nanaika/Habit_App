@@ -5,9 +5,10 @@ import '../theme.dart';
 
 class TabBarGoalType extends StatefulWidget {
   const TabBarGoalType({
-    super.key,
+    super.key, required this.onChanged, this.initIndex = 0,
   });
-
+  final void Function(int index) onChanged;
+  final int initIndex;
   @override
   State<TabBarGoalType> createState() => _TabBarGoalTypeState();
 }
@@ -19,8 +20,11 @@ class _TabBarGoalTypeState extends State<TabBarGoalType> with SingleTickerProvid
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.index = widget.initIndex;
     _tabController.addListener(() {
-      setState(() {});
+      setState(() {
+        widget.onChanged(_tabController.index);
+      });
     });
   }
 

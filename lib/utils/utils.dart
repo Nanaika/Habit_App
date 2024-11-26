@@ -86,14 +86,15 @@ double calculatePercentage(int currentAttempts, int maxAttempts) {
   return (currentAttempts / maxAttempts);
 }
 
-bool isHabitCompletedToday(List<DateTime> completedDays) {
+bool isCompletedToday(List<DateTime> completedDays) {
+  // if(completedDays.isEmpty) return false;
   final today = DateTime.now();
   return completedDays.any(
     (elem) => elem.year == today.year && elem.month == today.month && elem.day == today.day,
   );
 }
 
-bool isHabitCompletedThisWeek(List<int> completedWeek) {
+bool isCompletedThisWeek(List<int> completedWeek) {
   final currentWeek = getWeekOfYear(DateTime.now());
   return completedWeek.any(
         (elem) => elem == currentWeek,
@@ -204,5 +205,65 @@ int getWeekNumber(DateTime date) {
   return (daysSinceStartOfYear / 7).ceil();
 }
 
+int countDaysInCurrentWeek(List<DateTime> dates) {
+  // Получаем сегодняшнюю дату
+  final today = DateTime.now();
+
+  // Находим начало недели (понедельник) и конец недели (воскресенье)
+  final startOfWeek = DateTime(today.year, today.month, today.day)
+      .subtract(Duration(days: today.weekday - 1)); // Понедельник
+  final endOfWeek = startOfWeek.add(Duration(days: 6)); // Воскресенье
+
+  // Фильтруем даты, которые попадают в текущую неделю
+  final daysInCurrentWeek = dates.where((date) {
+    // Нормализуем дату, убираем время
+    final normalizedDate = DateTime(date.year, date.month, date.day);
+
+    // Проверяем, попадает ли дата в текущую неделю
+    return normalizedDate.isAfter(startOfWeek.subtract(Duration(days: 1))) &&
+        normalizedDate.isBefore(endOfWeek.add(Duration(days: 1)));
+  }).toList();
+
+  // Возвращаем количество таких дат
+  return daysInCurrentWeek.length;
+}
+
+List<int> getIndicesOfCurrentWeekDates(List<DateTime> dates) {
+  // Получаем сегодняшнюю дату
+  final today = DateTime.now();
+
+  // Находим начало недели (понедельник) и конец недели (воскресенье)
+  final startOfWeek = DateTime(today.year, today.month, today.day)
+      .subtract(Duration(days: today.weekday - 1)); // Начало недели — понедельник
+  final endOfWeek = startOfWeek.add(const Duration(days: 6)); // Конец недели — воскресенье
+
+  // Находим индексы дат, которые попадают в текущую неделю (год, месяц, день)
+  final indices = <int>[];
+  for (int i = 0; i < dates.length; i++) {
+    // Нормализуем дату (сбрасываем время)
+    final date = DateTime(dates[i].year, dates[i].month, dates[i].day);
+
+    // Проверяем, если дата попадает в текущую неделю
+    if (date.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
+        date.isBefore(endOfWeek.add(const Duration(days: 1)))) {
+      // Получаем индекс дня недели
+      final dayIndex = date.weekday - 1; // Понедельник = 0, вторник = 1, ...
+      indices.add(dayIndex); // Добавляем индекс дня недели
+    }
+  }
+
+  return indices;
+}
+
+int getIndexOfTodayInCurrentWeek() {
+  final today = DateTime.now();
+
+  // Находим начало недели (понедельник)
+  final startOfWeek = DateTime(today.year, today.month, today.day)
+      .subtract(Duration(days: today.weekday - 1)); // Понедельник
+
+  // Индекс сегодняшнего дня в текущей неделе (от 0 для понедельника до 6 для воскресенья)
+  return today.weekday - 1;  // Понедельник = 0, Воскресенье = 6
+}
 
 

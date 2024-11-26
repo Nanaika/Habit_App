@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:habit_app/bloc/add_goal_type_index_bloc.dart';
-import 'package:habit_app/bloc/goal_bloc.dart';
 import 'package:habit_app/components/tab_bar_goal_type.dart';
 
+import '../bloc/add_goal_type_index_bloc.dart';
+import '../bloc/goal_bloc.dart';
 import '../domain/models/goal.dart';
 import '../theme.dart';
+import 'add_goal_dialog.dart';
 import 'close_circle_button.dart';
 import 'custom_no_icon_button.dart';
 import 'custom_text_field.dart';
 
-class AddGoalDialog extends StatefulWidget {
-  const AddGoalDialog({
+class EditGoalDialog extends StatefulWidget {
+  const EditGoalDialog({
     super.key,
+    required this.goal,
   });
 
+  final Goal goal;
+
   @override
-  State<AddGoalDialog> createState() => _AddGoalDialogState();
+  State<EditGoalDialog> createState() => _EditGoalDialogState();
 }
 
-class _AddGoalDialogState extends State<AddGoalDialog> {
-  int typeIndex = 0;
+class _EditGoalDialogState extends State<EditGoalDialog> {
   late final TextEditingController nameController;
   late final TextEditingController hourController;
   late final TextEditingController minController;
   late final TextEditingController mlController;
   late final TextEditingController caloriesController;
-  late final AddGoalTypeIndexBloc bloc;
+  late final AddGoalTypeIndexBloc typeIndexBloc;
 
   @override
   void initState() {
@@ -36,12 +39,24 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
     minController = TextEditingController();
     mlController = TextEditingController();
     caloriesController = TextEditingController();
-    bloc = context.read<AddGoalTypeIndexBloc>();
+
+    typeIndexBloc = context.read<AddGoalTypeIndexBloc>();
+    nameController.text = widget.goal.name;
+
+
+    switch (widget.goal.type) {
+      case GoalType.fitness:
+        hourController.text = widget.goal.duration!.hours.toString();
+        minController.text = widget.goal.duration!.minutes.toString();
+      case GoalType.water:
+        mlController.text = widget.goal.ml.toString();
+      case GoalType.nutrition:
+        caloriesController.text = widget.goal.calories.toString();
+    }
   }
 
   @override
   void dispose() {
-    bloc.changeIndex(0);
     super.dispose();
     nameController.dispose();
     hourController.dispose();
@@ -52,6 +67,8 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
 
   @override
   Widget build(BuildContext context) {
+    typeIndexBloc.changeIndex(GoalType.values.indexOf(widget.goal.type));
+
     return AlertDialog(
       insetPadding: const EdgeInsets.all(12),
       shape: RoundedRectangleBorder(
@@ -66,7 +83,7 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
               children: [
                 Expanded(
                   child: Text(
-                    'Create goal',
+                    'Edit goal',
                     style: getTextTheme(context).displaySmall?.copyWith(color: getColor(context).secondary),
                   ),
                 ),
@@ -81,8 +98,8 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
               height: 16,
             ),
             TabBarGoalType(
+              initIndex: GoalType.values.indexOf(widget.goal.type),
               onChanged: (index) {
-                typeIndex = index;
                 context.read<AddGoalTypeIndexBloc>().changeIndex(index);
               },
             ),
@@ -145,7 +162,7 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
                 ),
                 CustomNoIconButton(
                   onTap: () {
-                    final GoalType type = GoalType.values[typeIndex];
+                    final GoalType type = GoalType.values[typeIndexBloc.state];
                     Goal goal;
                     switch (type) {
                       case GoalType.fitness:
@@ -178,7 +195,7 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
                           daysCompleted: [],
                         );
                     }
-                    context.read<GoalBloc>().saveGoal(goal);
+                    context.read<GoalBloc>().updateGoal(widget.goal.id, goal);
                     Navigator.of(context).pop();
                   },
                   text: 'Save',
@@ -189,68 +206,6 @@ class _AddGoalDialogState extends State<AddGoalDialog> {
           ],
         ),
       ),
-    );
-  }
-}
-
-//TODO
-//components
-class GoalTypeUnitName extends StatelessWidget {
-  const GoalTypeUnitName({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AddGoalTypeIndexBloc, int>(
-      builder: (BuildContext context, int state) {
-        final text = switch (state) {
-          0 => 'Duration',
-          1 => 'Drink (ml)',
-          2 => 'Calories',
-          int() => '',
-        };
-        return Text(
-          text,
-          style: getTextTheme(context).bodyMedium?.copyWith(color: getColor(context).secondary),
-        );
-      },
-    );
-  }
-}
-
-class HoursMinRow extends StatelessWidget {
-  const HoursMinRow({
-    super.key,
-    required this.hourController,
-    required this.minController,
-  });
-
-  final TextEditingController hourController;
-  final TextEditingController minController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: CustomTextField(
-            controller: hourController,
-            hintText: 'Hours',
-            textAlign: TextAlign.start,
-          ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Expanded(
-          child: CustomTextField(
-            controller: minController,
-            hintText: 'Mins',
-            textAlign: TextAlign.start,
-          ),
-        ),
-      ],
     );
   }
 }

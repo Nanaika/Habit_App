@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_app/bloc/habit_bloc.dart';
 import 'package:habit_app/components/add_habit_dialog.dart';
-import 'package:habit_app/components/edit_bottom_sheet.dart';
+import 'package:habit_app/components/edit_habit_bottom_sheet.dart';
 import 'package:habit_app/components/sub_title.dart';
 import 'package:habit_app/theme.dart';
 import 'package:habit_app/utils/string_extensions.dart';
@@ -99,7 +99,7 @@ class _HabitPageViewState extends State<HabitPageView> {
                                           backgroundColor: getColor(context).surface,
                                           context: context,
                                           builder: (ctx) {
-                                            return EditBottomSheet(
+                                            return EditHabitBottomSheet(
                                               habit: habits[index],
                                             );
                                           });
@@ -164,8 +164,8 @@ class _HabitPageViewState extends State<HabitPageView> {
                               assetPath: getCategoryAsset(habits[index].category),
                               type: habits[index].type.name.capitalizeFirst(),
                               isComplete: habits[index].type == HabitType.daily
-                                  ? isHabitCompletedToday(habits[index].daysComplete)
-                                  : isHabitCompletedThisWeek(habits[index].weeksComplete),
+                                  ? isCompletedToday(habits[index].daysComplete)
+                                  : isCompletedThisWeek(habits[index].weeksComplete),
                             );
                           },
                           separatorBuilder: (context, index) {

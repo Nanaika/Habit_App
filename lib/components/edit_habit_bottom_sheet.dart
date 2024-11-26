@@ -14,8 +14,8 @@ import 'close_circle_button.dart';
 import 'display_small.dart';
 import 'expanded_habit_view.dart';
 
-class EditBottomSheet extends StatelessWidget {
-  const EditBottomSheet({
+class EditHabitBottomSheet extends StatelessWidget {
+  const EditHabitBottomSheet({
     super.key,
     required this.habit,
   });
