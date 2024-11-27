@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:habit_app/theme.dart';
 
 import '../components/custom_button.dart';
+import '../utils/const.dart';
 import 'onboarding_page2.dart';
 
 class OnboardingPage1 extends StatelessWidget {

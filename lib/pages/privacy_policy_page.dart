@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:habit_app/components/body_medium.dart';
-import 'package:habit_app/components/goal_view.dart';
 import 'package:habit_app/theme.dart';
+
+import '../components/label_large.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key, required this.title, required this.text});
+
   final String title;
   final String text;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

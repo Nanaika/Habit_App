@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../bloc/bottom_bar_index_bloc.dart';
 import '../theme.dart';
+import '../utils/const.dart';
 
 class BottomBarButton extends StatelessWidget {
   const BottomBarButton({
@@ -44,13 +45,16 @@ class BottomBarButton extends StatelessWidget {
                 ),
               ],
             ),
-            child: SvgPicture.asset(
-              imagePath,
-              colorFilter: index == state
-                  ? ColorFilter.mode(getColor(context).surfaceTint, BlendMode.srcIn)
-                  : ColorFilter.mode(getColor(context).onPrimary, BlendMode.srcIn),
-              width: 24,
-              height: 24,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: SvgPicture.asset(
+                imagePath,
+                colorFilter: index == state
+                    ? ColorFilter.mode(getColor(context).surfaceTint, BlendMode.srcIn)
+                    : ColorFilter.mode(getColor(context).onPrimary, BlendMode.srcIn),
+                width: 20,
+                height: 20,
+              ),
             ),
           ),
         );

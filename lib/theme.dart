@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-const defLetterSpacing = -0.75;
-const defPaddingH = 16.0;
-const defButtonPadding = 16.0;
-const defBorderRadius = 32.0;
-
-const blue = Color(0xff6EC1FD);
-const red = Color(0xffFD886E);
-const violet = Color(0xffCEB5F2);
-const green = Color(0xffA2E492);
+import 'package:habit_app/utils/const.dart';
 
 final lightTheme = ThemeData(
   textTheme: const TextTheme(
@@ -61,12 +52,6 @@ final lightTheme = ThemeData(
     surfaceTint: Color(0xffffffff),
     surface: Color(0xffFAF6F0),
     onSurface: Color(0x1429282F),
-    // surface: Color(0xffF3F2F7),
-    // tertiary: Color(0xff419CFF),
-    // secondaryFixed: Color(0xff939393),
-    // inverseSurface: Color(0xff1e1e1e),
-    // onSurface: Color(0xffffffff),
-    // primaryFixed: Color(0xffffffff),
   ),
 );
 
@@ -95,28 +80,3 @@ TextTheme getTextTheme(BuildContext context) {
 ColorScheme getColor(BuildContext context) {
   return Theme.of(context).colorScheme;
 }
-
-const String privacyPolicy =
-    ''' The prohibited or acceptable use clause in your terms of use agreement outlines all rules your users must follow when accessing your services.
-  Here is where you can list and ban behaviors and activities like:
-    \u25CF Obscene, crude, or violent posts
-    \u25CF False or misleading content
-    \u25CF Breaking the law
-    \u25CF Spamming or scamming the service or other users
-    \u25CF Hacking or tampering with your website or app
-    \u25CF Violating copyright laws
-    \u25CF Harassing other users
-    \u25CF Stalking other users
-  If your website or app gives users a lot of control and freedom while using your services, consider putting multiple use clauses within your terms of use.''';
-const String termOfUse =
-    ''' The prohibited or acceptable use clause in your terms of use agreement outlines all rules your users must follow when accessing your services.
-  Here is where you can list and ban behaviors and activities like:
-    \u25CF Obscene, crude, or violent posts
-    \u25CF False or misleading content
-    \u25CF Breaking the law
-    \u25CF Spamming or scamming the service or other users
-    \u25CF Hacking or tampering with your website or app
-    \u25CF Violating copyright laws
-    \u25CF Harassing other users
-    \u25CF Stalking other users
-  If your website or app gives users a lot of control and freedom while using your services, consider putting multiple use clauses within your terms of use.''';

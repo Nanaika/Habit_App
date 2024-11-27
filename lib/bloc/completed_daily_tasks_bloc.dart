@@ -8,16 +8,7 @@ class CompletedDailyTasksBloc extends Cubit<List<Task>> {
   final Isar db;
 
   void getTasksByType(TaskType type) async {
-   final tasks = await db.tasks.filter().typeEqualTo(type).findAll();
-   emit(tasks);
+    final tasks = await db.tasks.filter().typeEqualTo(type).findAll();
+    emit(tasks);
   }
-
-
-
-
-}
-
-sealed class CompletedDailyTasksState {}
-class Loaded extends CompletedDailyTasksState {
-
 }

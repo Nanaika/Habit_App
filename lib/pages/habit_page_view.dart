@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_app/bloc/habit_bloc.dart';
-import 'package:habit_app/components/add_habit_dialog.dart';
-import 'package:habit_app/components/edit_habit_bottom_sheet.dart';
+import 'package:habit_app/components/dialogs/add_habit/add_habit_dialog.dart';
+import 'package:habit_app/components/dialogs/edit_habit_bottom_sheet/edit_habit_bottom_sheet.dart';
 import 'package:habit_app/components/sub_title.dart';
 import 'package:habit_app/theme.dart';
 import 'package:habit_app/utils/string_extensions.dart';
 
-import '../components/create_goal_button.dart';
-import '../components/empty_task_view.dart';
-import '../components/habit_check_view.dart';
-import '../components/habit_view.dart';
+import '../components/goal_page/create_goal_button.dart';
+import '../components/habit_page/habit_check_view.dart';
+import '../components/habit_page/habit_view.dart';
 import '../components/image_row.dart';
+import '../components/task_page/empty_task_view.dart';
 import '../components/title_row.dart';
 import '../domain/models/habit.dart';
+import '../utils/const.dart';
 import '../utils/utils.dart';
 
 class HabitPageView extends StatefulWidget {

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
+import '../utils/const.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({

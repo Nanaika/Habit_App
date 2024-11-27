@@ -21,7 +21,7 @@ class GoalBloc extends Cubit<List<Goal>> {
     Goal? oldGoal = await db.goals.get(id);
     oldGoal?.name = newGoal.name;
     oldGoal?.type = newGoal.type;
-    switch(newGoal.type) {
+    switch (newGoal.type) {
       case GoalType.fitness:
         oldGoal?.duration = newGoal.duration;
       case GoalType.water:

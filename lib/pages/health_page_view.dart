@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_app/bloc/goal_bloc.dart';
-import 'package:habit_app/components/add_goal_dialog.dart';
-import 'package:habit_app/components/edit_goal_bottom_sheet.dart';
+import 'package:habit_app/components/dialogs/add_goal/add_goal_dialog.dart';
+import 'package:habit_app/components/dialogs/edit_goal_bottom_sheet/edit_goal_bottom_sheet.dart';
 import 'package:habit_app/domain/models/goal.dart';
 import 'package:habit_app/theme.dart';
 
-import '../components/create_goal_button.dart';
-import '../components/empty_task_view.dart';
-import '../components/goal_view.dart';
+import '../components/goal_page/create_goal_button.dart';
+import '../components/goal_page/goal_view.dart';
 import '../components/image_row.dart';
 import '../components/sub_title.dart';
+import '../components/task_page/empty_task_view.dart';
 import '../components/title_row.dart';
+import '../utils/const.dart';
 
 class HealthPageView extends StatefulWidget {
   const HealthPageView({super.key});

@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_app/components/goal_view.dart';
 import 'package:habit_app/pages/privacy_policy_page.dart';
 import 'package:habit_app/theme.dart';
 
 import '../components/image_row.dart';
+import '../components/label_large.dart';
 import '../components/settings_page/feedback_bottom_sheet.dart';
 import '../components/settings_page/feedback_section.dart';
 import '../components/settings_page/settings_block.dart';
 import '../components/title_row.dart';
+import '../utils/const.dart';
 
 class SettingsPageView extends StatefulWidget {
   const SettingsPageView({super.key});

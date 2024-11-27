@@ -4,7 +4,7 @@ import 'package:habit_app/pages/main_page_view.dart';
 import 'package:habit_app/theme.dart';
 
 import '../components/custom_button.dart';
-import 'onboarding_page1.dart';
+import '../utils/const.dart';
 
 class OnboardingPage3 extends StatelessWidget {
   const OnboardingPage3({super.key});
@@ -33,7 +33,6 @@ class OnboardingPage3 extends StatelessWidget {
                     style: getTextTheme(context).displayLarge?.copyWith(color: getColor(context).secondary),
                     textAlign: TextAlign.center,
                   ),
-
                 ],
               ),
               Padding(
@@ -44,7 +43,7 @@ class OnboardingPage3 extends StatelessWidget {
                     text: 'Get started',
                     onTap: () {
                       Navigator.of(context).push(CupertinoPageRoute(builder: (ctx) {
-                        return MainPageView();
+                        return const MainPageView();
                       }));
                     },
                   ),

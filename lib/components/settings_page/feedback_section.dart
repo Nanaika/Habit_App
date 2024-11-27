@@ -4,13 +4,16 @@ import 'package:habit_app/components/settings_page/send_feedback_button.dart';
 
 import '../../theme.dart';
 import '../display_small.dart';
-import '../goal_view.dart';
+import '../label_large.dart';
 
 class FeedBackSection extends StatelessWidget {
   const FeedBackSection({
-    super.key, this.onTap,
+    super.key,
+    this.onTap,
   });
+
   final void Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -41,7 +44,9 @@ class FeedBackSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.max,
               children: [
-                SendFeedBackButton(onTap: onTap,),
+                SendFeedBackButton(
+                  onTap: onTap,
+                ),
               ],
             ),
           ],

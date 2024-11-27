@@ -5,7 +5,6 @@ class AddGoalTypeIndexBloc extends Cubit<int> {
 
 
   void changeIndex(int index) {
-    print('EMIT index --------  ${index}');
     emit(index);
   }
 

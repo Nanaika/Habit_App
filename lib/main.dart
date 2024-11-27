@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'HabitApp',
         theme: lightTheme,
         home: const RootPage(),
       ),

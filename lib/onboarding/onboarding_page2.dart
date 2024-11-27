@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:habit_app/theme.dart';
 
 import '../components/custom_button.dart';
+import '../components/feature_row.dart';
 import 'onboarding_page3.dart';
 
 class OnboardingPage2 extends StatelessWidget {
@@ -35,11 +36,24 @@ class OnboardingPage2 extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  const FeatureRow(imagePath: 'assets/images/checkbox.png', text: 'Task scheduling',),
-                  const SizedBox(height: 8,),
-                  const FeatureRow(imagePath: 'assets/images/heart.png', text: ' Health tracker',),
-                  const SizedBox(height: 8,),
-                  const FeatureRow(imagePath: 'assets/images/dictionary.png', text: 'Habit tracking',),
+                  const FeatureRow(
+                    imagePath: 'assets/images/checkbox.png',
+                    text: 'Task scheduling',
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  const FeatureRow(
+                    imagePath: 'assets/images/heart.png',
+                    text: ' Health tracker',
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  const FeatureRow(
+                    imagePath: 'assets/images/dictionary.png',
+                    text: 'Habit tracking',
+                  ),
                 ],
               ),
               Padding(
@@ -50,7 +64,7 @@ class OnboardingPage2 extends StatelessWidget {
                     text: 'Next',
                     onTap: () {
                       Navigator.of(context).push(CupertinoPageRoute(builder: (ctx) {
-                        return OnboardingPage3();
+                        return const OnboardingPage3();
                       }));
                     },
                   ),
@@ -63,30 +77,3 @@ class OnboardingPage2 extends StatelessWidget {
     );
   }
 }
-
-class FeatureRow extends StatelessWidget {
-  const FeatureRow({
-    super.key, required this.imagePath, required this.text,
-  });
-  final String imagePath;
-  final String text;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(imagePath, width: 20, height: 20,),
-        Padding(
-          padding: const EdgeInsets.only(left: 4),
-          child: Text(
-            text,
-            style: getTextTheme(context).bodyMedium?.copyWith(color: getColor(context).onPrimary),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-

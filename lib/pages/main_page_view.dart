@@ -3,15 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habit_app/bloc/task_bloc.dart';
 import 'package:habit_app/theme.dart';
 
-import '../components/add_task_button.dart';
-import '../components/add_task_dialog.dart';
-import '../components/completed_daily_chips_row.dart';
-import '../components/completed_task_container.dart';
-import '../components/empty_task_view.dart';
+import '../components/dialogs/add_task_dialog.dart';
 import '../components/image_row.dart';
-import '../components/task_chips_row.dart';
-import '../components/task_tile.dart';
+import '../components/task_page/add_task_button.dart';
+import '../components/task_page/completed_daily_chips_row.dart';
+import '../components/task_page/completed_task_container.dart';
+import '../components/task_page/empty_task_view.dart';
+import '../components/task_page/task_chips_row.dart';
+import '../components/task_page/task_tile.dart';
 import '../components/title_row.dart';
+import '../utils/const.dart';
+import '../utils/utils.dart';
 
 class MainPageView extends StatefulWidget {
   const MainPageView({super.key});
@@ -199,11 +201,4 @@ class _MainPageViewState extends State<MainPageView> {
       ),
     );
   }
-}
-
-double calculateCompletionPercentage(int completedTasks, int totalTasks) {
-  if (totalTasks == 0) {
-    return 0;
-  }
-  return (completedTasks / totalTasks) * 100;
 }
