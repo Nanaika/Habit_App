@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habit_app/pages/main_page_view.dart';
+import 'package:habit_app/pages/root_page.dart';
 import 'package:habit_app/theme.dart';
 
 import '../components/custom_button.dart';
@@ -43,7 +44,7 @@ class OnboardingPage3 extends StatelessWidget {
                     text: 'Get started',
                     onTap: () {
                       Navigator.of(context).push(CupertinoPageRoute(builder: (ctx) {
-                        return const MainPageView();
+                        return const RootPage();
                       }));
                     },
                   ),

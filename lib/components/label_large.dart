@@ -5,10 +5,11 @@ import '../theme.dart';
 class LabelLarge extends StatelessWidget {
   const LabelLarge({
     super.key,
-    required this.text,
+    required this.text, this.overflow = TextOverflow.ellipsis,
   });
 
   final String text;
+  final TextOverflow? overflow;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class LabelLarge extends StatelessWidget {
       text,
       style: getTextTheme(context)
           .labelLarge
-          ?.copyWith(color: getColor(context).onPrimary, overflow: TextOverflow.ellipsis),
+          ?.copyWith(color: getColor(context).onPrimary, overflow: overflow),
     );
   }
 }

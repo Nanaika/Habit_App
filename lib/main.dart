@@ -9,7 +9,7 @@ import 'package:habit_app/bloc/task_bloc.dart';
 import 'package:habit_app/domain/models/goal.dart';
 import 'package:habit_app/domain/models/habit.dart';
 import 'package:habit_app/domain/models/task.dart';
-import 'package:habit_app/pages/root_page.dart';
+import 'package:habit_app/onboarding/onboarding_page1.dart';
 import 'package:habit_app/theme.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'HabitApp',
         theme: lightTheme,
-        home: const RootPage(),
+        home: const OnboardingPage1(),
       ),
     );
   }

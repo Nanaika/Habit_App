@@ -22,7 +22,7 @@ class PrivacyPolicyPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: LabelLarge(text: text),
+        child: LabelLarge(text: text, overflow: null,),
       ),
     );
   }

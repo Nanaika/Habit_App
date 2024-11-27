@@ -51,6 +51,7 @@ class _SettingsPageViewState extends State<SettingsPageView> {
                 FeedBackSection(
                   onTap: () {
                     showModalBottomSheet(
+                        isScrollControlled: true,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                         backgroundColor: getColor(context).surface,
                         context: context,
