@@ -159,6 +159,7 @@ class _HabitPageViewState extends State<HabitPageView> {
                         return ListView.separated(
                           itemBuilder: (context, index) {
                             return HabitCheckView(
+                              habit: habits[index],
                               key: ValueKey(habits[index].id),
                               id: habits[index].id,
                               name: habits[index].name,

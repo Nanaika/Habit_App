@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:habit_app/utils/utils.dart';
 
 import '../../bloc/habit_bloc.dart';
+import '../../domain/models/habit.dart';
 import '../../theme.dart';
 import '../../utils/const.dart';
 import '../body_medium.dart';
@@ -17,6 +19,7 @@ class HabitCheckView extends StatefulWidget {
     required this.type,
     this.isComplete = false,
     required this.id,
+    required this.habit,
   });
 
   final int id;
@@ -24,6 +27,7 @@ class HabitCheckView extends StatefulWidget {
   final String name;
   final String type;
   final bool isComplete;
+  final Habit habit;
 
   @override
   State<HabitCheckView> createState() => _HabitCheckViewState();
@@ -79,7 +83,7 @@ class _HabitCheckViewState extends State<HabitCheckView> {
                 ),
               ),
               HabitCheckViewButton(
-                isComplete: isComplete,
+                isComplete: checkComplete(widget.habit.type, widget.habit),
               ),
             ],
           ),
@@ -87,4 +91,11 @@ class _HabitCheckViewState extends State<HabitCheckView> {
       ),
     );
   }
+}
+
+bool checkComplete(HabitType type, Habit habit) {
+  return switch (type) {
+    HabitType.daily => isCompletedToday(habit.daysComplete),
+    HabitType.weekly => isCompletedThisWeek(habit.weeksComplete),
+  };
 }
